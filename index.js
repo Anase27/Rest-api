@@ -7,6 +7,11 @@ const user_id = 'john_doe_17091999';
 
 app.use(bodyParser.json());
 
+
+app.get('/',(res,req) => {
+    res..status(200).json("hello");
+})
+
 app.post('/bfhl', (req, res) => {
     try {
         // Get the input array from the request body
