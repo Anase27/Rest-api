@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 
 app.get('/',(res,req) => {
-    res..status(200).json("hello");
+    res.status(200).json("hello");
 })
 
 app.post('/bfhl', (req, res) => {
