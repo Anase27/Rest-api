@@ -8,7 +8,7 @@ const user_id = 'john_doe_17091999';
 app.use(bodyParser.json());
 
 
-app.get('/',(res,req) => {
+app.get('/',(req,res) => {
     res.status(200).json({
         "msg" : "hello"
     });
