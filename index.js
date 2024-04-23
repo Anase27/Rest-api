@@ -20,8 +20,9 @@ app.post('/bfhl', (req, res) => {
         const inputArray = req.body.array;
 
         // Split the input array into even numbers, odd numbers, and alphabets
-        const evenNumbersArray = inputArray.filter(num => num % 2 === 0);
-        const oddNumbersArray = inputArray.filter(num => num % 2 !== 0);
+        const numArray = inputArray.filter(num => !isNaN(num))
+        const evenNumbersArray = numArray.filter(num => num % 2 === 0);
+        const oddNumbersArray = numArray.filter(num => num % 2 !== 0);
         const alphabetArray = inputArray.filter(char => isNaN(char));
 
         // Convert alphabets to uppercase
