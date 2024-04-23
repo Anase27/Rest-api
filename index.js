@@ -1,46 +1,47 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
 const port = 3000;
+const user_id = 'john_doe_17091999';
 
-app.use(express.json());
-
+app.use(bodyParser.json());
 
 app.post('/bfhl', (req, res) => {
-    const data = req.body.data;
-    const arr = data.slice(1,-1).split(',');
-    const user_id = "john_doe_17091999"; 
-    const numArray = [];
-    const alphaArray = [];
-    arr.forEach(e=>{
-      if(isNaN(e)){
-        alphaArray.push(e.toUppercase());
-      }
-      else{
-        numArray.push(+e);
-      }
-    })
+    try {
+        // Get the input array from the request body
+        const inputArray = req.body.array;
 
-    const email = "john@xyz.com";
+        // Split the input array into even numbers, odd numbers, and alphabets
+        const evenNumbersArray = inputArray.filter(num => num % 2 === 0);
+        const oddNumbersArray = inputArray.filter(num => num % 2 !== 0);
+        const alphabetArray = inputArray.filter(char => isNaN(char));
 
+        // Convert alphabets to uppercase
+        const uppercaseAlphabets = alphabetArray.map(char => char.toUpperCase());
 
-    const uppercaseAlphabets = data.filter(char => /^[A-Za-z]$/.test(char)).map(char => char.toUpperCase())|| [];
-    const evenNumbers = data.filter(num => num % 2 === 0) || [];
-    const oddNumbers = data.filter(num => num % 2 !== 0) || [];
+        // Prepare the response object
+        const response = {
+            "user_id": user_id,
+            "is_success": true,
+            "data": {
+                "status": "success",
+                "user_id": user_id,
+                "email_id": "example@example.com",
+                "college_roll_number": "123456",
+                "even_numbers_array": evenNumbersArray,
+                "odd_numbers_array": oddNumbersArray,
+                "uppercase_alphabets_array": uppercaseAlphabets
+            }
+        };
 
-
-    const response = {
-        user_id,
-        is_success: true,
-        email_id: email, 
-        college_roll_number: "ABCD123", 
-        array_even_numbers: evenNumbers,
-        array_odd_numbers: oddNumbers,
-        array_uppercase_alphabets: uppercaseAlphabets
-    };
-
-    res.status(200).json(response);
+        res.status(200).json(response);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ "error": "An error occurred while processing the request" });
+    }
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`REST API server is running at http://localhost:${port}`);
 });
